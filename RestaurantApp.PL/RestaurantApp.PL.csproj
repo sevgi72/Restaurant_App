@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestaurantApp.DAL\RestaurantApp.DAL.csproj" />
+    <ProjectReference Include="..\RestaurantApp.BLL\RestaurantApp.BLL.csproj" />
   </ItemGroup>
 
 </Project>

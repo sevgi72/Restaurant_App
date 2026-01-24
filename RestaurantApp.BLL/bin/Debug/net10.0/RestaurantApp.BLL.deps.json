@@ -9,7 +9,8 @@
       "RestaurantApp.BLL/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.0",
-          "Microsoft.EntityFrameworkCore.Tools": "10.0.0"
+          "Microsoft.EntityFrameworkCore.Tools": "10.0.0",
+          "RestaurantApp.DAL": "1.0.0"
         },
         "runtime": {
           "RestaurantApp.BLL.dll": {}
@@ -1037,6 +1038,17 @@
             "fileVersion": "9.0.24.52809"
           }
         }
+      },
+      "RestaurantApp.DAL/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.0"
+        },
+        "runtime": {
+          "RestaurantApp.DAL.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -1493,6 +1505,11 @@
       "sha512": "sha512-U9msthvnH2Fsw7xwAvIhNHOdnIjOQTwOc8Vd0oGOsiRcGMGoBFlUD6qtYawRUoQdKH9ysxesZ9juFElt1Jw/7A==",
       "path": "system.windows.extensions/9.0.0",
       "hashPath": "system.windows.extensions.9.0.0.nupkg.sha512"
+    },
+    "RestaurantApp.DAL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
