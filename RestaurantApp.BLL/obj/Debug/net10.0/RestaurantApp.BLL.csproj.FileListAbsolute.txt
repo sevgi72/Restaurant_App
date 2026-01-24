@@ -1,0 +1,15 @@
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\bin\Debug\net10.0\RestaurantApp.BLL.deps.json
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\bin\Debug\net10.0\RestaurantApp.BLL.runtimeconfig.json
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\bin\Debug\net10.0\RestaurantApp.BLL.dll
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\bin\Debug\net10.0\RestaurantApp.BLL.pdb
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.csproj.AssemblyReference.cache
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.AssemblyInfoInputs.cache
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.AssemblyInfo.cs
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.csproj.CoreCompileInputs.cache
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.sourcelink.json
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.dll
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\refint\RestaurantApp.BLL.dll
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.pdb
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\RestaurantApp.BLL.genruntimeconfig.cache
+C:\Users\sevgimf\source\repos\RestaurantApp\RestaurantApp.BLL\obj\Debug\net10.0\ref\RestaurantApp.BLL.dll
