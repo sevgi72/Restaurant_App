@@ -1,109 +1,116 @@
 ﻿using RestaurantApp.BLL.Interfaces;
+using RestaurantApp.BLL.Dtos.MenuItemDto;
 using RestaurantApp.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using RestaurantApp.DAL.Data;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantApp.BLL.Services
 {
-    public class MenuItemServices : IMenuItemService
+    public class MenuItemServices(RestaurantAppDbContext context, IMapper mapper) : IMenuItemService
     {
-        private readonly List<MenuItem> _menuItems;
-        private int _idCounter = 1;
-
-        public MenuItemServices()
+        public async Task AddMenuItemAsync(MenuItemCreateDto menuItemCreateDto)
         {
-            _menuItems = new List<MenuItem>();
-        }
-
-
-        public Task AddMenuItemAsync(string name, decimal price, string category)
-        {
-            
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(menuItemCreateDto.Name))
                 throw new Exception("MenuItem adi bos ola bilmez");
-
-            if (price <= 0)
+            
+            if (menuItemCreateDto.Price <= 0)
                 throw new Exception("Qiymet 0-dan boyuk olmalidir");
-
-            var exists = _menuItems.Any(m => m.Name.ToLower() == name.ToLower());
-            if (exists)
+            
+            var nameExists = await context.MenuItems
+                .AnyAsync(m => m.Name.ToLower() == menuItemCreateDto.Name.ToLower());
+            
+            if (nameExists)
                 throw new Exception("Bu adda menu item artiq movcuddur");
-
-            var menuItem = new MenuItem
-            {
-                Id = _idCounter++,
-                Name = name,
-                Price = price,
-                Category = category
-            };
-            _menuItems.Add(menuItem);
-            return Task.CompletedTask;
+            
+            var menuItem = mapper.Map<MenuItem>(menuItemCreateDto);
+            await context.MenuItems.AddAsync(menuItem);
+            await context.SaveChangesAsync();
         }
 
-        public Task<List<MenuItem>> GetByCategoryAsync(string category)
+        public async Task<List<MenuItemReturnDto>> GetByCategoryAsync(string category)
         {
-            if(string.IsNullOrWhiteSpace(category))
-                throw new Exception("Kateqoriya adi bos ola bilmez");
-            var existingItems = _menuItems
-                .Where(m => m.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-            return Task.FromResult(existingItems);
+            if (string.IsNullOrWhiteSpace(category))
+                throw new Exception("Category bos ola bilmez");
+            
+            var itemsInCategory = await context.MenuItems
+                .Where(m => m.Category.ToLower() == category.ToLower())
+                .ToListAsync();
+            if(itemsInCategory==null)
+                throw new Exception("Bu category-e aid menu item tapilmadi");
 
+            return mapper.Map<List<MenuItemReturnDto>>(itemsInCategory);
         }
 
-        public Task<List<MenuItem>> GetByPriceIntervalAsync(decimal min, decimal max)
+        public async Task<List<MenuItemReturnDto>> GetByPriceIntervalAsync(decimal min, decimal max)
         {
-            if(min<0 || max < 0)
-                throw new Exception("Qiymet menfi ola bilmez");
+            if (min < 0 || max < 0)
+                throw new Exception("Qiymetler menfi ola bilmez");
+            
             if (min > max)
                 throw new Exception("Minimum qiymet maksimum qiymetden boyuk ola bilmez");
-            var existingItems = _menuItems
+            
+            var itemsInRange = await context.MenuItems
                 .Where(m => m.Price >= min && m.Price <= max)
-                .ToList();
-            return Task.FromResult(existingItems);
+                .ToListAsync();
+            if(itemsInRange==null)
+                throw new Exception("Bu qiymet araligina aid menu item tapilmadi");
 
+            return mapper.Map<List<MenuItemReturnDto>>(itemsInRange);
         }
 
-        public Task RemoveMenuItemAsync(int id)
+        public async Task RemoveMenuItemAsync(int id)
         {
-            var existingItem = _menuItems.FirstOrDefault(m => m.Id == id);
-            if (existingItem == null)
-                throw new Exception("Menu item tapilmadi");
-            _menuItems.Remove(existingItem);
-            return Task.CompletedTask;
-        }
-
-        public Task EditMenuItemAsync(int id, string newName, decimal newPrice)
-        {
-            var existingItem = _menuItems.FirstOrDefault(m => m.Id == id);
+            var existingItem = await context.MenuItems.FirstOrDefaultAsync(m => m.Id == id);
+            
             if (existingItem == null)
                 throw new Exception("Menu item tapilmadi");
 
-            if (string.IsNullOrWhiteSpace(newName))
-                throw new Exception("MenuItem adi bos ola bilmez");
+            context.MenuItems.Remove(existingItem);
+            await context.SaveChangesAsync();
+        }
 
-            if (newPrice <= 0)
+        public async Task EditMenuItemAsync(int id,MenuItemUpdateDto dto)
+        {
+            if(id!=dto.Id)
+                throw new Exception("Idler uygun deyil");
+
+            var existingItem = await context.MenuItems.FirstOrDefaultAsync(m => m.Id == dto.Id);
+            
+            if (existingItem == null)
+                throw new Exception("Menu item tapilmadi");
+            
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                throw new Exception("Menu item adi bos ola bilmez");
+            
+            if (dto.Price <= 0)
                 throw new Exception("Qiymet 0-dan boyuk olmalidir");
-
-            var nameExists = _menuItems.Any(m => m.Id != id && m.Name.ToLower() == newName.ToLower());
+            
+            var nameExists = await context.MenuItems
+                .AnyAsync(m => m.Name.ToLower() == dto.Name.ToLower() && m.Id != dto.Id);
+            
             if (nameExists)
                 throw new Exception("Bu adda menu item artiq movcuddur");
 
-            existingItem.Name = newName;
-            existingItem.Price = newPrice;
-            return Task.CompletedTask;
+            mapper.Map(dto, existingItem);
+            await context.SaveChangesAsync();
         }
 
-        public Task<List<MenuItem>> SearchAsync(string searchText)
+        public async Task<List<MenuItemReturnDto>> SearchAsync(string searchText)
         {
-            if(string.IsNullOrWhiteSpace(searchText))
+            if (string.IsNullOrWhiteSpace(searchText))
                 throw new Exception("Axtaris metni bos ola bilmez");
-            return Task.FromResult(_menuItems
-                .Where(m => m.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                .ToList());
+
+            var searchResults = await context.MenuItems
+                .Where(m => m.Name.ToLower().Contains(searchText.ToLower()) || m.Category.ToLower().Contains(searchText.ToLower()))
+                .ToListAsync();
+            
+            return mapper.Map<List<MenuItemReturnDto>>(searchResults);
         }
     }
 }

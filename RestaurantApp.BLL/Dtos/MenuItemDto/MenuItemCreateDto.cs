@@ -4,7 +4,10 @@ using System.Text;
 
 namespace RestaurantApp.BLL.Dtos.MenuItemDto
 {
-    internal class MenuItemCreateDto
+    public class MenuItemCreateDto
     {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -1,42 +1,110 @@
 ﻿using RestaurantApp.BLL.Interfaces;
+using RestaurantApp.BLL.Dtos.OrderDto;
 using RestaurantApp.DAL.Models;
+using RestaurantApp.DAL.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace RestaurantApp.BLL.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService (RestaurantAppDbContext context ,IMapper mapper): IOrderService
     {
-        public Task AddOrderAsync(List<(int menuItemId, int quantity)> items)
+        
+
+        public async Task AddOrderAsync(OrderCreateDto orderCreateDto)
         {
-            throw new NotImplementedException();
+          
+            var order = mapper.Map<Order>(orderCreateDto);
+            await context.Orders.AddAsync(order);
+            await context.SaveChangesAsync();
+
         }
 
-        public Task<List<Order>> GetOrderByDateAsync(DateTime date)
+        public async Task<List<OrderReturnDto>> GetAllOrdersAsync()
         {
-            throw new NotImplementedException();
+            var orders=await context.Orders
+                .Include(o=>o.OrderItems)
+                .ToListAsync();
+            return mapper.Map<List<OrderReturnDto>>(orders);
         }
 
-        public Task<Order> GetOrderByNoAsync(int orderNo)
+        public async Task<List<OrderReturnDto>> GetOrderByDateAsync(DateTime date)
         {
-            throw new NotImplementedException();
+            if(date==null)
+                throw new Exception("Tarix daxil edilmeyib");
+            var ordersForDate = await context.Orders
+                .Where(o => o.Date.Year == date.Year && 
+                           o.Date.Month == date.Month && 
+                           o.Date.Day == date.Day)
+                .ToListAsync();
+            if(ordersForDate==null || ordersForDate.Count==0)
+                throw new Exception("Bu tarixde sifaris tapilmadi");
+
+            return mapper.Map<List<OrderReturnDto>>(ordersForDate);
         }
 
-        public Task<List<Order>> GetOrdersByDatesIntervalAsync(DateTime start, DateTime end)
+        public async Task<OrderReturnDto> GetOrderByNoAsync(int orderNo)
         {
-            throw new NotImplementedException();
+            if (orderNo <= 0)
+                throw new Exception("Sifaris nomresi menfi ve ya 0 ola bilmez");
+            var order = await context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.Id == orderNo);
+            
+            if (order == null)
+                throw new Exception("Sifaris tapilmadi");
+
+            return mapper.Map<OrderReturnDto>(order);
         }
 
-        public Task<List<Order>> GetOrdersByPriceIntervalAsync(decimal min, decimal max)
+        public async Task<List<OrderReturnDto>> GetOrdersByDatesIntervalAsync(DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            if(start == null || end == null)
+                throw new Exception("Tarix daxil edilmeyib");
+            if (start > end)
+                throw new Exception("Baslangic tarixi son tarixden bosuk olmalidir");
+
+            var ordersInInterval = await context.Orders
+                .Where(o => o.Date >= start && o.Date <= end)
+                .ToListAsync();
+            if(ordersInInterval==null || ordersInInterval.Count==0)
+                throw new Exception("Bu tarix araliginda sifaris tapilmadi");
+
+            return mapper.Map<List<OrderReturnDto>>(ordersInInterval);
         }
 
-        public Task RemoveOrderAsync(int orderNo)
+        public async Task<List<OrderReturnDto>> GetOrdersByPriceIntervalAsync(decimal min, decimal max)
         {
-            throw new NotImplementedException();
+            if (min < 0 || max < 0)
+                throw new Exception("Qiymet menfi ola bilmez");
+            
+            if (min > max)
+                throw new Exception("Minimum qiymet maksimum qiymetden boyuk ola bilmez");
+
+            var ordersInPriceRange = await context.Orders
+                .Where(o => o.TotalAmount >= min && o.TotalAmount <= max)
+                .Include(o => o.OrderItems)
+                .ToListAsync();
+            if(ordersInPriceRange==null || ordersInPriceRange.Count==0)
+                throw new Exception("Bu qiymet araliginda sifaris tapilmadi");
+
+            return mapper.Map<List<OrderReturnDto>>(ordersInPriceRange);
+        }
+
+        public async Task RemoveOrderAsync(int orderNo)
+        {
+            var order = await context.Orders.FirstOrDefaultAsync(o => o.Id == orderNo);
+            if (order == null)
+                throw new Exception("Sifaris tapilmadi");
+            context.Orders.Remove(order);
+            await context.SaveChangesAsync();
         }
     }
-
 }
+
+

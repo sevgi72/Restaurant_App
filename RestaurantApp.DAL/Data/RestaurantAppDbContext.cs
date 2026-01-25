@@ -9,6 +9,15 @@ namespace RestaurantApp.DAL.Data
 {
     public class RestaurantAppDbContext : DbContext
     {
+        public RestaurantAppDbContext(DbContextOptions options) : base(options)
+        {
+
+        }
+
+        protected RestaurantAppDbContext()
+        {
+        }
+
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
