@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RestaurantApp.DAL.Configurations
 {
-    public class OrderItemConfiguation : IEntityTypeConfiguration<OrderItem>
+    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {

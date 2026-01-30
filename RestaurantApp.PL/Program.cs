@@ -28,7 +28,7 @@ IServiceProvider ConfigureServices()
     services.AddLogging();
     // Database Configuration
     services.AddDbContext<RestaurantAppDbContext>(options =>
-        options.UseSqlServer("Server=.;Database=RestaurantApp;Trusted_Connection=true;"));
+        options.UseSqlServer("Server=.\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;"));
 
     // AutoMapper Configuration
     services.AddAutoMapper(cfg => cfg.AddProfile<MapperProfile>());
@@ -77,7 +77,9 @@ async Task RunApplicationAsync(IMenuItemService menuItemService, IOrderService o
         }
         catch (Exception ex)
         {
-            DisplayError($"Xəta baş verdi: {ex.Message}");
+            // InnerException-ı görmək üçün bu hissəni dəyişirik
+            var message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            DisplayError($"Xəta baş verdi: {message}");
         }
     }
 }
