@@ -678,3 +678,4 @@ C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.PL\obj\Debug\net10.0\r
 C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.PL\obj\Debug\net10.0\RestaurantApp.PL.pdb
 C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.PL\obj\Debug\net10.0\RestaurantApp.PL.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.PL\obj\Debug\net10.0\ref\RestaurantApp.PL.dll
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.PL\bin\Debug\net10.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

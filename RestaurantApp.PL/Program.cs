@@ -615,3 +615,4 @@ void DisplayExitMessage()
     Console.WriteLine("\n✓ Proqramdan çıxış edildi. Sağolun!");
     Console.ResetColor();
 }
+Console.WriteLine("hello world");

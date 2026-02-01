@@ -16,9 +16,8 @@ namespace RestaurantApp.BLL.Mapper
             CreateMap<MenuItem, MenuItemReturnDto>();
             CreateMap<MenuItemCreateDto, MenuItem>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-            CreateMap<MenuItemUpdateDto, MenuItem>()
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderItemId, opt => opt.Ignore());
+            CreateMap<MenuItemUpdateDto, MenuItem>();
+                
 
             // Order Mappings
             CreateMap<Order, OrderReturnDto>();

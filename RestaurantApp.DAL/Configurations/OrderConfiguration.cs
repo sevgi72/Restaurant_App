@@ -18,10 +18,7 @@ namespace RestaurantApp.DAL.Configurations
             builder.Property(o => o.Date)
                      .IsRequired();
 
-            builder.HasMany(o => o.OrderItems)
-                   .WithOne(oi => oi.Order)
-                   .HasForeignKey(o => o.OrderId)
-                   .OnDelete(DeleteBehavior.Cascade);
+           
 
             
         }

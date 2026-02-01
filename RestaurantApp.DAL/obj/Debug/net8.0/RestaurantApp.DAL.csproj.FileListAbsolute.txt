@@ -1,0 +1,15 @@
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\bin\Debug\net8.0\RestaurantApp.DAL.deps.json
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\bin\Debug\net8.0\RestaurantApp.DAL.runtimeconfig.json
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\bin\Debug\net8.0\RestaurantApp.DAL.dll
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\bin\Debug\net8.0\RestaurantApp.DAL.pdb
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.csproj.AssemblyReference.cache
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.AssemblyInfoInputs.cache
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.AssemblyInfo.cs
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.csproj.CoreCompileInputs.cache
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.sourcelink.json
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.dll
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\refint\RestaurantApp.DAL.dll
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.pdb
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\RestaurantApp.DAL.genruntimeconfig.cache
+C:\Users\PC\OneDrive\Desktop\Restaurant_App\RestaurantApp.DAL\obj\Debug\net8.0\ref\RestaurantApp.DAL.dll
