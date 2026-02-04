@@ -27,7 +27,7 @@ namespace RestaurantApp.DAL.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
 

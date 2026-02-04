@@ -1,22 +1,43 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using RestaurantApp.BLL.Services;
-using RestaurantApp.BLL.Interfaces;
-using RestaurantApp.BLL.Mapper;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using RestaurantApp.BLL.Dtos.MenuItemDto;
 using RestaurantApp.BLL.Dtos.OrderDto;
+using RestaurantApp.BLL.Interfaces;
+using RestaurantApp.BLL.Mapper;
+using RestaurantApp.BLL.Services;
+using RestaurantApp.DAL.Concretes;
 using RestaurantApp.DAL.Data;
+using RestaurantApp.DAL.Interfaces;
 
 // ╔════════════════════════════════════════════════════════════╗
 // ║        RESTAURANT MANAGEMENT SYSTEM - CONFIGURATION       ║
 // ╚════════════════════════════════════════════════════════════╝
 
-var serviceProvider = ConfigureServices();
-var menuItemService = serviceProvider.GetRequiredService<IMenuItemService>();
-var orderService = serviceProvider.GetRequiredService<IOrderService>();
+//var serviceProvider = ConfigureServices();
+//var menuItemService = serviceProvider.GetRequiredService<IMenuItemService>();
+//var orderService = serviceProvider.GetRequiredService<IOrderService>();
 
 
-await RunApplicationAsync(menuItemService, orderService);
+
+var services = new ServiceCollection();
+
+// DbContext qeydiyyatı
+services.AddDbContext<RestaurantAppDbContext>();
+
+// Generic repository qeydiyyatı
+services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// Services qeydiyyatı
+services.AddScoped<IMenuItemService, MenuItemServices>();
+
+// AutoMapper
+services.AddAutoMapper(typeof(Program));
+
+// Build service provider
+var serviceProvider = services.BuildServiceProvider();
+
+
+//await RunApplicationAsync(menuItemService, orderService);
 
 // ╔════════════════════════════════════════════════════════════╗
 // ║                   SERVICE CONFIGURATION                    ║
@@ -28,7 +49,7 @@ IServiceProvider ConfigureServices()
     services.AddLogging();
     // Database Configuration
     services.AddDbContext<RestaurantAppDbContext>(options =>
-        options.UseSqlServer("Server=.\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;"));
+        options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;"));
 
     // AutoMapper Configuration
     services.AddAutoMapper(cfg => cfg.AddProfile<MapperProfile>());

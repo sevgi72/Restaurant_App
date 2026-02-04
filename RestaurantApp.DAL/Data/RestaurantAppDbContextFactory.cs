@@ -13,7 +13,7 @@ namespace RestaurantApp.DAL.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<RestaurantAppDbContext>();
             // Server adını SSMS-dəki kimi yazdığınızdan əmin olun (məsələn: .\\SQLEXPRESS)
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Restaurant_AppDb;Trusted_Connection=True;TrustServerCertificate=True;");
 
             return new RestaurantAppDbContext(optionsBuilder.Options);
         }
