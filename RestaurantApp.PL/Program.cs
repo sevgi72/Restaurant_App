@@ -6,8 +6,11 @@ using RestaurantApp.BLL.Interfaces;
 using RestaurantApp.BLL.Mapper;
 using RestaurantApp.BLL.Services;
 using RestaurantApp.DAL.Concretes;
-using RestaurantApp.DAL.Data;
 using RestaurantApp.DAL.Interfaces;
+using RestaurantApp.DAL.Data;
+
+
+
 
 // ╔════════════════════════════════════════════════════════════╗
 // ║        RESTAURANT MANAGEMENT SYSTEM - CONFIGURATION       ║
@@ -29,7 +32,7 @@ services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 // Services qeydiyyatı
 services.AddScoped<IMenuItemService, MenuItemServices>();
-
+//services.AddScoped<IOrderService, OrderService>();    
 // AutoMapper
 services.AddAutoMapper(typeof(Program));
 
@@ -56,7 +59,7 @@ IServiceProvider ConfigureServices()
 
     // Service Registration
     services.AddScoped<IMenuItemService, MenuItemServices>();
-    services.AddScoped<IOrderService, OrderService>();
+    services.AddScoped<IOrderService, OrderServices>();
 
     return services.BuildServiceProvider();
 }

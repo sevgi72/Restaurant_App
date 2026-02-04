@@ -9,25 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using RestaurantApp.DAL.Concretes;
 
 namespace RestaurantApp.BLL.Services
 {
-    public class OrderService (RestaurantAppDbContext context ,IMapper mapper): IOrderService
+    public class OrderServices(Repository<Order> _orderRepo, IMapper mapper) : IOrderService
     {
-        
+
 
         public async Task AddOrderAsync(OrderCreateDto orderCreateDto)
         {
           
             var order = mapper.Map<Order>(orderCreateDto);
-            await context.Orders.AddAsync(order);
-            await context.SaveChangesAsync();
-
+            await _orderRepo.AddAsync(order);
+            await _orderRepo.SaveChangesAsync();
         }
-
         public async Task<List<OrderReturnDto>> GetAllOrdersAsync()
         {
-            var orders=await context.Orders
+            var orders=await _orderRepo.GetAll()
                 .Include(o=>o.OrderItems)
                 .ToListAsync();
             return mapper.Map<List<OrderReturnDto>>(orders);
@@ -37,7 +36,7 @@ namespace RestaurantApp.BLL.Services
         {
             if(date==null)
                 throw new Exception("Tarix daxil edilmeyib");
-            var ordersForDate = await context.Orders
+            var ordersForDate = await _orderRepo.GetAll()
                 .Where(o => o.Date.Year == date.Year && 
                            o.Date.Month == date.Month && 
                            o.Date.Day == date.Day)
@@ -52,7 +51,7 @@ namespace RestaurantApp.BLL.Services
         {
             if (orderNo <= 0)
                 throw new Exception("Sifaris nomresi menfi ve ya 0 ola bilmez");
-            var order = await context.Orders
+            var order = await _orderRepo.GetAll()
                 .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(o => o.Id == orderNo);
             
@@ -69,7 +68,7 @@ namespace RestaurantApp.BLL.Services
             if (start > end)
                 throw new Exception("Baslangic tarixi son tarixden bosuk olmalidir");
 
-            var ordersInInterval = await context.Orders
+            var ordersInInterval = await _orderRepo.GetAll()
                 .Where(o => o.Date >= start && o.Date <= end)
                 .ToListAsync();
             if(ordersInInterval==null || ordersInInterval.Count==0)
@@ -86,7 +85,7 @@ namespace RestaurantApp.BLL.Services
             if (min > max)
                 throw new Exception("Minimum qiymet maksimum qiymetden boyuk ola bilmez");
 
-            var ordersInPriceRange = await context.Orders
+            var ordersInPriceRange = await _orderRepo.GetAll()
                 .Where(o => o.TotalAmount >= min && o.TotalAmount <= max)
                 .Include(o => o.OrderItems)
                 .ToListAsync();
@@ -98,11 +97,11 @@ namespace RestaurantApp.BLL.Services
 
         public async Task RemoveOrderAsync(int orderNo)
         {
-            var order = await context.Orders.FirstOrDefaultAsync(o => o.Id == orderNo);
+            var order = await _orderRepo.GetByIdAsync( orderNo);
             if (order == null)
                 throw new Exception("Sifaris tapilmadi");
-            context.Orders.Remove(order);
-            await context.SaveChangesAsync();
+            _orderRepo.RemoveAsync(order);
+            await _orderRepo.SaveChangesAsync();
         }
     }
 }
